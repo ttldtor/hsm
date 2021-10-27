@@ -3,56 +3,51 @@
 #include <cassert>
 
 // States
-struct Empty {
-};
-struct Open {
-};
-struct Stopped {
-};
-struct Paused {
-};
-struct Song1{
-};
-struct Song2{
-};
-struct Song3{
-};
+struct Empty {};
+struct Open {};
+struct Stopped {};
+struct Paused {};
+struct Song1 {};
+struct Song2 {};
+struct Song3 {};
 
 // Events
-struct cd_detected {
-};
-struct open_close {
-};
-struct stop {
-};
-struct play {
-};
-struct pause2 {
-};
-struct end_pause {
-};
-struct next_song {
-};
-struct prev_song {
-};
+struct cd_detected {};
+struct open_close {};
+struct stop {};
+struct play {};
+struct pause2 {};
+struct end_pause {};
+struct next_song {};
+struct prev_song {};
 
 // Actions
-const auto store_cd_info = [](auto /*event*/, auto /*source*/, auto /*target*/) {};
-const auto open_drawer = [](auto /*event*/, auto /*source*/, auto /*target*/) {};
-const auto close_drawer = [](auto /*event*/, auto /*source*/, auto /*target*/) {};
-const auto stopped_again = [](auto /*event*/, auto /*source*/, auto /*target*/) {};
-const auto start_playback = [](auto /*event*/, auto /*source*/, auto /*target*/) {};
-const auto stop_and_open = [](auto /*event*/, auto /*source*/, auto /*target*/) {};
-const auto pause_playback = [](auto /*event*/, auto /*source*/, auto /*target*/) {};
-const auto stop_playback = [](auto /*event*/, auto /*source*/, auto /*target*/) {};
-const auto resume_playback = [](auto /*event*/, auto /*source*/, auto /*target*/) {};
-const auto start_next_song = [](auto /*event*/, auto /*source*/, auto /*target*/) {};
-const auto start_prev_song = [](auto /*event*/, auto /*source*/, auto /*target*/) {};
+const auto store_cd_info = [](auto /*event*/, auto /*source*/, auto /*target*/) {
+};
+const auto open_drawer = [](auto /*event*/, auto /*source*/, auto /*target*/) {
+};
+const auto close_drawer = [](auto /*event*/, auto /*source*/, auto /*target*/) {
+};
+const auto stopped_again = [](auto /*event*/, auto /*source*/, auto /*target*/) {
+};
+const auto start_playback = [](auto /*event*/, auto /*source*/, auto /*target*/) {
+};
+const auto stop_and_open = [](auto /*event*/, auto /*source*/, auto /*target*/) {
+};
+const auto pause_playback = [](auto /*event*/, auto /*source*/, auto /*target*/) {
+};
+const auto stop_playback = [](auto /*event*/, auto /*source*/, auto /*target*/) {
+};
+const auto resume_playback = [](auto /*event*/, auto /*source*/, auto /*target*/) {
+};
+const auto start_next_song = [](auto /*event*/, auto /*source*/, auto /*target*/) {
+};
+const auto start_prev_song = [](auto /*event*/, auto /*source*/, auto /*target*/) {
+};
 
 struct Playing {
-    static constexpr auto make_transition_table()
-    {
-        // clang-format off
+  static constexpr auto make_transition_table() {
+    // clang-format off
         return hsm::transition_table(
             //              Start      , Event                    , Guard   , Action            , Target
             //             +-----------+--------------------------+---------+-------------------+---------------+
@@ -65,15 +60,14 @@ struct Playing {
             //            +------------+--------------------------+---------+-------------------+---------------+                        
         );
 
-        // clang-format on
-    }
+    // clang-format on
+  }
 };
 
 
 struct CdPlayer {
-    static constexpr auto make_transition_table()
-    {
-        // clang-format off
+  static constexpr auto make_transition_table() {
+    // clang-format off
         return hsm::transition_table(
             //              Start  , Event                   , Guard   , Action , Target
             //             +-------+-------------------------+---------+--------+---------------+
@@ -95,16 +89,15 @@ struct CdPlayer {
               hsm::state<Paused>   + hsm::event<open_close>  / stop_and_open    = hsm::state<Open>
             //            +-------------+----------------------------+---------+------------------+---------------+                                    
         );
-        // clang-format on
-    }
+    // clang-format on
+  }
 };
 
-int main()
-{
-    hsm::sm<CdPlayer> CdPlayerSm;
+int main() {
+  hsm::sm<CdPlayer> CdPlayerSm;
 
-    // Cd player is empty
-    assert(CdPlayerSm.is(hsm::state<Empty>));
+  // Cd player is empty
+  assert(CdPlayerSm.is(hsm::state<Empty>));
 
-    return 0;
+  return 0;
 }
